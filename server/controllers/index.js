@@ -310,13 +310,17 @@ const searchDogName = (req, res) => {
     // Add to the dog's age
     lastDog = doc;
     lastDog.age++;
+    // temp.save();
+    // lastDog.age++;
 
     // once you change all the object properties you want,
     // then just call the Model object's save function
     // create a new save promise for the database
-    lastDog.save();
+    return lastDog.save().then(() => {
+      res.json({ name: lastDog.name, breed: lastDog.breed, age: lastDog.age });
+    }).catch((err2) => res.status(500).json({ err2 }));
 
-    return res.json({ name: lastDog.name, breed: lastDog.breed, lastDog: lastDog.age });
+    // return res.json({ name: lastDog.name, breed: lastDog.breed, lastDog: lastDog.age });
 
 
     // if a match, send the match back
